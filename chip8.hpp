@@ -6,18 +6,30 @@
 #include "fstream"
 #include "vector"
 #include "iomanip"
+#include "random"
 
 #define STARTING_ADDRESS 0x200
 #define FONTSET_STARTING 0x050
+#define SCREEN_WIDTH 0
+#define SCREEN_HEIGHT 0
 
 class Chip8{
 public:
     Chip8();
     ~Chip8();
     static const uint8_t FONTSET[80];
-    
+    enum REGISTERS{
+        VA = 10,
+        VB = 11,
+        VC = 12,
+        VD = 13,
+        VE = 14,
+        VF = 15
+    };
+
     void loadFontset();
     void loadRom(const std::string fileName);
+    uint8_t getRandByte();
 
     // instruction set
 
@@ -58,13 +70,16 @@ public:
     void LD_Vx_I();     // Read registers V0 through Vx from memory starting at location I.
     
 private:
-    uint8_t  regV_[16]{};
+    uint16_t opcode_{};
     uint16_t indexReg_{};
     uint16_t prgrmCntr_{};
     uint8_t  stkPtr_{};
+    uint8_t delayTimer_{};
+    uint8_t soundTimer_{};
 
+    uint8_t  regV_[16]{};
     uint8_t memory_[4096]{};
     uint16_t stack_[16]{};
     uint8_t keypad_[16]{};
-    uint32_t displayBuffer[64 * 32]{};
+    uint32_t displayBuffer_[64 * 32]{};
 };
