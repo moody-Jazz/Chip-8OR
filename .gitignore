@@ -1,3 +1,5 @@
 *.ch8
 *.exe
 /.vscode
+raylib.h
+libraylib.a
