@@ -4,20 +4,53 @@
 #include "cstdint"
 #include "string"
 #include "fstream"
-#include "vector"
+#include "array"
 #include "iomanip"
 #include "random"
 
-#define STARTING_ADDRESS 0x200
-#define FONTSET_STARTING 0x050
-#define SCREEN_WIDTH 0
-#define SCREEN_HEIGHT 0
+constexpr uint16_t STARTING_ADDRESS = 0x200;
+constexpr uint16_t FONTSET_STARTING = 0x050;
+constexpr uint8_t TABLE1_SIZE       = 16;
+constexpr uint8_t TABLE2_SIZE       = 16;
+constexpr uint8_t TABLE3_SIZE       = 57;
+constexpr uint8_t TABLE3_OFFSET     = 3;
+#define SCREEN_WIDTH 64
+#define SCREEN_HEIGHT 32
 
 class Chip8{
 public:
     Chip8();
     ~Chip8();
+    void cycle();
+
     static const uint8_t FONTSET[80];
+    uint32_t displayBuffer[64 * 32]{};
+    uint8_t keypad[16]{};
+
+    /*
+     * below are the lookup tables for all the instructions
+     * these arrays contain function pointers for each instruction
+     * The instructions set is divided in three groups
+     * table1 is group of instructions which all have unique most significant nibble
+     * table2 is group of instructions which all have unique least significant nibble
+     * table3 is group of instructions which all have unique pair of 0th and 1st nibble
+     * 
+     * table1 = $1nnn  $2nnn  $3xkk  $4xkk  $5xy0  $6xkk
+                $7xkk  $9xy0  $Annn  $Bnnn  $Cxkk  $Dxyn
+                as you can see the first nibble from left is unique
+
+     * table2 = $8xy0  $8xy1  $8xy2  $8xy3 
+                $8xy5  $8xy6  $8xy7  $8xyE  $8xy4
+                as you can see the last nibble from left is unique
+
+     * table3 = $00E0  $00EE  $ExA1  $Ex9E  $Fx07  $Fx0A
+                $Fx1E  $Fx29  $Fx33  $Fx55  $Fx65  $Fx18  $Fx15  
+                as you can see the pair of last two nibble from left are all unique
+    */
+    std::array<void (Chip8::*)(), TABLE1_SIZE> table1;
+    std::array<void (Chip8::*)(), TABLE2_SIZE> table2;
+    std::array<void (Chip8::*)(), TABLE3_SIZE> table3;
+    
     enum REGISTERS{
         VA = 10,
         VB = 11,
@@ -80,6 +113,4 @@ private:
     uint8_t  regV_[16]{};
     uint8_t memory_[4096]{};
     uint16_t stack_[16]{};
-    uint8_t keypad_[16]{};
-    uint32_t displayBuffer_[64 * 32]{};
 };
