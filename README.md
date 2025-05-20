@@ -1,6 +1,6 @@
 # CHIP-8OR
 
-A simple CHIP-8 emulator/interpreter written in C/C++. This emulator allows you to play classic CHIP-8 games on modern hardware.
+A simple CHIP-8 emulator/interpreter written in C++. This emulator allows you to play classic CHIP-8 games on modern hardware.
 
 ## How to Run
 
@@ -11,15 +11,15 @@ A simple CHIP-8 emulator/interpreter written in C/C++. This emulator allows you 
 
 #### Method 1: Default Settings
 `chip8 filename.ch8`
-This runs the specified ROM with default scale and tickrate.
+This runs the specified ROM with default scale and cycles per frame.
 
 #### Method 2: Custom Scale
 `chip8 <scale> filename.ch8`
-This runs the specified ROM with a custom scale factor and default tickrate.
+This runs the specified ROM with a custom scale factor and default cycles per frame.
 
 #### Method 3: Custom Scale and Tickrate
 `chip8 <scale> <cycles/frame> filename.ch8`
-This runs the specified ROM with custom scale factor and custom tickrate.
+This runs the specified ROM with custom scale factor and custom cyckes per frame.
 
 ### Parameters
 
