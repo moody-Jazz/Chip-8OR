@@ -18,14 +18,15 @@ constexpr uint8_t TABLE3_OFFSET     = 3;
 #define SCREEN_HEIGHT 32
 
 class Chip8{
-public:
+    public:
     Chip8();
     ~Chip8();
     void cycle();
-
+    
     static const uint8_t FONTSET[80];
     uint32_t displayBuffer[64 * 32]{};
     uint8_t keypad[16]{};
+    uint8_t soundTimer{};
 
     /*
      * below are the lookup tables for all the instructions
@@ -63,6 +64,8 @@ public:
     void loadFontset();
     void loadRom(const std::string fileName);
     uint8_t getRandByte();
+    void decrementTimers();
+    void restartProgram();
 
     // instruction set
 
@@ -102,13 +105,13 @@ public:
     void LD_I_Vx();     // store registers V0 throgh Vx in memory, starting at location I
     void LD_Vx_I();     // Read registers V0 through Vx from memory starting at location I.
     
-private:
+public:
     uint16_t opcode_{};
     uint16_t indexReg_{};
     uint16_t prgrmCntr_{};
     uint8_t  stkPtr_{};
     uint8_t delayTimer_{};
-    uint8_t soundTimer_{};
+    uint8_t x_{}, y_{}, kk_{};
 
     uint8_t  regV_[16]{};
     uint8_t memory_[4096]{};
