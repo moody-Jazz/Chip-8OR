@@ -2,6 +2,8 @@
 
 A simple CHIP-8 emulator/interpreter written in C++. This emulator allows you to play classic CHIP-8 games on modern hardware.
 
+[Video demo](https://files.catbox.moe/40sic1.mp4)
+
 ## How to Run
 
 ### Basic Usage
@@ -19,7 +21,7 @@ This runs the specified ROM with a custom scale factor and default cycles per fr
 
 #### Method 3: Custom Scale and Tickrate
 `chip8 <scale> <cycles/frame> filename.ch8`
-This runs the specified ROM with custom scale factor and custom cyckes per frame.
+This runs the specified ROM with custom scale factor and custom cycles per frame.
 
 ### Parameters
 
@@ -58,3 +60,19 @@ The CHIP-8 system uses a 16-key hexadecimal keypad. These keys are mapped to you
 - `ESC`: Exit the emulator
 - `J`: Reset the current ROM
 - `Space`: Pause/Resume emulation
+
+## How to Build
+
+To build this project, follow these steps:
+
+1. **Make sure you have the following files in the project folder**:
+   - `raylib.h`
+   - `libraylib.a`
+
+   These files are required from a working [raylib](https://github.com/raysan5/raylib) build.
+
+2. **Run the Python build script**:
+   ```bash
+   build.py
+   ```
+   this will build the executable file 
